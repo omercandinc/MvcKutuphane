@@ -28,5 +28,24 @@ namespace MvcKutuphane.Controllers
 		{
 			return View();
 		}
+		public ActionResult KategoriSil(int id)
+		{
+			var degerler = db.TBLKATEGORI.Find(id);
+			db.TBLKATEGORI.Remove(degerler);
+			db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+		public ActionResult KategoriGetir(int id)
+		{
+			var degerler = db.TBLKATEGORI.Find(id);
+			return View("KategoriGetir", degerler);
+		}
+		public ActionResult KategoriGuncelle(TBLKATEGORI p)
+		{
+			var degerler = db.TBLKATEGORI.Find(p.ID);
+			degerler.AD = p.AD;
+			db.SaveChanges();
+			return RedirectToAction("Index");
+		}
 	}
 }
