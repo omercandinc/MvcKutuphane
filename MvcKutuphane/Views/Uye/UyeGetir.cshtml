@@ -1,0 +1,43 @@
+﻿@model MvcKutuphane.Models.Entity.TBLUYELER
+@{
+	ViewBag.Title = "UyeGetir";
+	Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>Personel Güncelleme Sayfası</h2>
+<br />
+@using (Html.BeginForm("UyeGuncelle", "Uye", FormMethod.Post))
+{
+	<div style="margin-top:15px"></div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.ID)
+		@Html.TextAreaFor(x => x.ID, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.AD)
+		@Html.TextAreaFor(x => x.AD, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.SOYAD)
+		@Html.TextAreaFor(x => x.SOYAD, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.KULLANICIADI)
+		@Html.TextAreaFor(x => x.KULLANICIADI, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.SIFRE)
+		@Html.TextAreaFor(x => x.SIFRE, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.MAIL)
+		@Html.TextAreaFor(x => x.MAIL, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.OKUL)
+		@Html.TextAreaFor(x => x.AD, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.TELEFON)
+		@Html.TextAreaFor(x => x.TELEFON,, new { @class = "form-control" })
+		<br />
+		@Html.LabelFor(x => x.FOTOGRAF)
+		@Html.TextAreaFor(x => x.FOTOGRAF, new { @class = "form-control" })
+	</div>
+	<div>
+		<button class="btn btn-warning">Güncelle</button>
+	</div>
+}

@@ -1,0 +1,40 @@
+﻿@model MvcKutuphane.Models.Entity.TBLHAREKET
+@{
+	ViewBag.Title = "OduncIade";
+	Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>Ödünç Iade Sayfası</h2>
+<br />
+@using (Html.BeginForm("OduncGuncelle", "Odunc", FormMethod.Post))
+{
+	<div style="margin-top:15px"></div>
+	<div class="form-group">
+		<label>Hareket ID</label>
+		@Html.TextBoxFor(x => x.ID, new { @class = "form-control" })
+		<br />
+		<label>Kitap Adı</label>
+		@Html.TextBoxFor(x => x.TBLKITAP.AD, new { @class = "form-control" })
+		<br />
+		<label>Kitap Adı</label>
+		@Html.TextBoxFor(x => x.TBLKITAP.AD, new { @class = "form-control" })
+		<br />
+		<label>Üye</label>
+		@Html.TextBoxFor(x => x.TBLUYELER.AD, new { @class = "form-control" })
+		<br />
+		<label>Personel</label>
+		@Html.TextBoxFor(x => x.TBLPERSONEL.PERSONEL, new { @class = "form-control" })
+		<br />
+		<label>Alış Tarihi</label>
+		@Html.TextBoxFor(x => x.ALISTARIH, "{0: dd.MM.yyyy}", new { @class = "form-control" })
+		<br />
+		<label>Normal Iade Tarihi</label>
+		@Html.TextBoxFor(x => x.IADETARIH, "{0: dd.MM.yyyy}", new { @class = "form-control" })
+		<br />
+		<label>Üyenin Getirdiği Tarih</label>
+		<input type="text" class="form-control" name="UYEGETIRTARIH" value="@DateTime.Now.ToShortDateString()" />
+	</div>
+	<div>
+		<button class="btn btn-warning">Ödünç Kitabı geri al</button>
+	</div>
+}

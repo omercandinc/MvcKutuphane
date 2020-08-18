@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBKUTUPHANEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBKUTUPHANEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -33,18 +33,12 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KITAP" Type="int" />
           <Property Name="UYE" Type="int" />
-          <Property Name="PERSONEL" Type="int" />
+          <Property Name="PERSONEL" Type="tinyint" />
           <Property Name="ALISTARIH" Type="smalldatetime" />
           <Property Name="IADETARIH" Type="smalldatetime" />
-          <Property Name="DURUM" Type="bit" />
+          <Property Name="UYEGETIRTARIH" Type="smalldatetime" />
+          <Property Name="ISLEMDURUM" Type="bit" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="TBLKASA">
-          <Property Name="ID" Type="int" />
-          <Property Name="AY" Type="varchar" MaxLength="20" />
-          <Property Name="TUTAR" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
         <EntityType Name="TBLKATEGORI">
           <Key>
             <PropertyRef Name="ID" />
@@ -63,6 +57,7 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           <Property Name="BASIMYIL" Type="char" MaxLength="4" />
           <Property Name="YAYINEVI" Type="varchar" MaxLength="50" />
           <Property Name="SAYFA" Type="varchar" MaxLength="4" />
+          <Property Name="DURUM" Type="bit" />
         </EntityType>
         <EntityType Name="TBLPERSONEL">
           <Key>
@@ -130,6 +125,18 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBLHAREKET_TBLPERSONEL">
+          <End Role="TBLPERSONEL" Type="Self.TBLPERSONEL" Multiplicity="0..1" />
+          <End Role="TBLHAREKET" Type="Self.TBLHAREKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLPERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLHAREKET">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBLHAREKET_TBLUYELER">
           <End Role="TBLUYELER" Type="Self.TBLUYELER" Multiplicity="0..1" />
           <End Role="TBLHAREKET" Type="Self.TBLHAREKET" Multiplicity="*" />
@@ -187,6 +194,10 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
             <End Role="TBLKITAP" EntitySet="TBLKITAP" />
             <End Role="TBLHAREKET" EntitySet="TBLHAREKET" />
           </AssociationSet>
+          <AssociationSet Name="FK_TBLHAREKET_TBLPERSONEL" Association="Self.FK_TBLHAREKET_TBLPERSONEL">
+            <End Role="TBLPERSONEL" EntitySet="TBLPERSONEL" />
+            <End Role="TBLHAREKET" EntitySet="TBLHAREKET" />
+          </AssociationSet>
           <AssociationSet Name="FK_TBLHAREKET_TBLUYELER" Association="Self.FK_TBLHAREKET_TBLUYELER">
             <End Role="TBLUYELER" EntitySet="TBLUYELER" />
             <End Role="TBLHAREKET" EntitySet="TBLHAREKET" />
@@ -200,8 +211,7 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
             <End Role="TBLKITAP" EntitySet="TBLKITAP" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBKUTUPHANEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -235,13 +245,15 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="KITAP" Type="Int32" />
           <Property Name="UYE" Type="Int32" />
-          <Property Name="PERSONEL" Type="Int32" />
+          <Property Name="PERSONEL" Type="Byte" />
           <Property Name="ALISTARIH" Type="DateTime" Precision="0" />
           <Property Name="IADETARIH" Type="DateTime" Precision="0" />
-          <Property Name="DURUM" Type="Boolean" />
           <NavigationProperty Name="TBLCEZALAR" Relationship="Self.FK_TBLCEZALAR_TBLHAREKET" FromRole="TBLHAREKET" ToRole="TBLCEZALAR" />
           <NavigationProperty Name="TBLKITAP" Relationship="Self.FK_TBLHAREKET_TBLKITAP" FromRole="TBLHAREKET" ToRole="TBLKITAP" />
           <NavigationProperty Name="TBLUYELER" Relationship="Self.FK_TBLHAREKET_TBLUYELER" FromRole="TBLHAREKET" ToRole="TBLUYELER" />
+          <NavigationProperty Name="TBLPERSONEL" Relationship="DBKUTUPHANEModel.FK_TBLHAREKET_TBLPERSONEL" FromRole="TBLHAREKET" ToRole="TBLPERSONEL" />
+          <Property Name="ISLEMDURUM" Type="Boolean" />
+          <Property Name="UYEGETIRTARIH" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="TBLKATEGORI">
           <Key>
@@ -265,6 +277,7 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           <NavigationProperty Name="TBLHAREKET" Relationship="Self.FK_TBLHAREKET_TBLKITAP" FromRole="TBLKITAP" ToRole="TBLHAREKET" />
           <NavigationProperty Name="TBLKATEGORI" Relationship="Self.FK_TBLKITAP_TBLKATEGORI" FromRole="TBLKITAP" ToRole="TBLKATEGORI" />
           <NavigationProperty Name="TBLYAZAR" Relationship="Self.FK_TBLKITAP_TBLYAZAR" FromRole="TBLKITAP" ToRole="TBLYAZAR" />
+          <Property Name="DURUM" Type="Boolean" />
         </EntityType>
         <EntityType Name="TBLPERSONEL">
           <Key>
@@ -272,6 +285,7 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           </Key>
           <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PERSONEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBLHAREKET" Relationship="DBKUTUPHANEModel.FK_TBLHAREKET_TBLPERSONEL" FromRole="TBLPERSONEL" ToRole="TBLHAREKET" />
         </EntityType>
         <EntityType Name="TBLUYELER">
           <Key>
@@ -404,7 +418,23 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
             <End Role="TBLYAZAR" EntitySet="TBLYAZAR" />
             <End Role="TBLKITAP" EntitySet="TBLKITAP" />
           </AssociationSet>
+          <AssociationSet Name="FK_TBLHAREKET_TBLPERSONEL" Association="DBKUTUPHANEModel.FK_TBLHAREKET_TBLPERSONEL">
+            <End Role="TBLPERSONEL" EntitySet="TBLPERSONEL" />
+            <End Role="TBLHAREKET" EntitySet="TBLHAREKET" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_TBLHAREKET_TBLPERSONEL">
+          <End Type="DBKUTUPHANEModel.TBLPERSONEL" Role="TBLPERSONEL" Multiplicity="0..1" />
+          <End Type="DBKUTUPHANEModel.TBLHAREKET" Role="TBLHAREKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLPERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLHAREKET">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -437,13 +467,14 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           <EntitySetMapping Name="TBLHAREKET">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBLHAREKET">
               <MappingFragment StoreEntitySet="TBLHAREKET">
+                <ScalarProperty Name="UYEGETIRTARIH" ColumnName="UYEGETIRTARIH" />
+                <ScalarProperty Name="ISLEMDURUM" ColumnName="ISLEMDURUM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="KITAP" ColumnName="KITAP" />
                 <ScalarProperty Name="UYE" ColumnName="UYE" />
                 <ScalarProperty Name="PERSONEL" ColumnName="PERSONEL" />
                 <ScalarProperty Name="ALISTARIH" ColumnName="ALISTARIH" />
                 <ScalarProperty Name="IADETARIH" ColumnName="IADETARIH" />
-                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -458,6 +489,7 @@ warning 6013: The table/view 'DBKUTUPHANE.dbo.TBLKASA' does not have a primary k
           <EntitySetMapping Name="TBLKITAP">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBLKITAP">
               <MappingFragment StoreEntitySet="TBLKITAP">
+                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AD" ColumnName="AD" />
                 <ScalarProperty Name="KATEGORI" ColumnName="KATEGORI" />

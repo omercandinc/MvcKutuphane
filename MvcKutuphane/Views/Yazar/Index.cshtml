@@ -4,7 +4,7 @@
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/Layout.cshtml";
 }
-
+<title>Yazarlar</title>
 <h2>Yazarlar</h2>
 
 <table class="table table-bordered">
@@ -23,7 +23,8 @@
 			<td>@x.AD</td>
 			<td>@x.SOYAD</td>
 			<td>@x.DETAY</td>
-			<td><a href="/Yazar/YazarSil/@x.ID" class="btn btn-danger">Sil</a></td>
+			<td>@Html.ActionLink("Sil","YazarSil",new { id = x.ID },new {@class="btn btn-danger",
+			onclick="return confirm('Silmek İsityor musunuz?')"})</td>
 			<td><a href="/Yazar/YazarGetir/@x.ID" class="btn btn-success">Güncelle</a></td>
 		</tr>
 	}
