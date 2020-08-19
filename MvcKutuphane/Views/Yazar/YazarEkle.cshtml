@@ -11,6 +11,7 @@
 	<div style="margin-top:15px">
 		<label>Yazar Adı</label>
 		@Html.TextBoxFor(x => x.AD, new { @class = "form-control" })
+		@Html.ValidationMessageFor(x => x.AD);
 	</div>
 	<div style="margin-top:15px">
 		<label>Yazar Soyadı</label>
