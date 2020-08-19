@@ -13,7 +13,7 @@ namespace MvcKutuphane.Controllers
 		DBKUTUPHANEEntities db = new DBKUTUPHANEEntities();
 		public ActionResult Index()
         {
-			var degerler = db.TBLHAREKET.ToList();
+			var degerler = db.TBLHAREKET.Where(x=>x.ISLEMDURUM==false).ToList();
 			return View(degerler);
         }
 		[HttpGet]
